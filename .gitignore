@@ -7,3 +7,4 @@ vendor/ruby/
 .redcar
 node_modules
 vendor/ruby
+bin/
