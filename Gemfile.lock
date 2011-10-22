@@ -1,13 +1,13 @@
 PATH
-  remote: /Users/superchris/dev/npm_assets
+  remote: /Users/bbarnett/dev/current/npm_assets
   specs:
-    npm_assets (0.0.2)
+    npm_assets (0.0.1)
       rails (>= 3.1)
 
 PATH
-  remote: /Users/superchris/dev/railbone
+  remote: /Users/bbarnett/dev/current/railbone
   specs:
-    railbone (0.0.1)
+    railbone (0.0.3)
 
 GEM
   remote: http://rubygems.org/

@@ -19,9 +19,9 @@ end
 gem 'jquery-rails'
 gem "jasminerice"
 gem 'jquery-rails'
-gem 'npm_assets', :path => "/Users/superchris/dev/npm_assets"
+gem 'npm_assets', :path => "#{File.dirname(__FILE__)}/../npm_assets"
 gem 'eco'
-gem "railbone", :path => "/Users/superchris/dev/railbone"
+gem "railbone", :path => "#{File.dirname(__FILE__)}/../railbone"
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'

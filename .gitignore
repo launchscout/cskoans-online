@@ -2,6 +2,7 @@
 db/*.sqlite3
 log/*.log
 tmp/
+vendor/ruby/
 .sass-cache/
 .redcar
 node_modules
