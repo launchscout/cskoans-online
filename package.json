@@ -1,1 +1,1 @@
-{"name":"cskoans-online","version":"0.0.1","dependencies":{"underscore":"*","backbone":"*"}}
+{"name":"cskoans-online","version":"0.0.1","dependencies":{"underscore":"*","backbone":"*","coffee-script":"*"}}

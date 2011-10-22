@@ -1,3 +1,5 @@
+canon = require('pilot/canon')
+
 class KoanRunnerView extends Backbone.View
   
   koans: ["AboutExistance", "AboutExpects", "AboutArrays"]
@@ -64,6 +66,14 @@ class KoanEditor
     @editor.getSession().setUseSoftTabs(true)
     coffeeMode = require("ace/mode/coffee").Mode
     @editor.getSession().setMode new coffeeMode()
+    canon.addCommand
+      name: 'myCommand'
+      bindKey:
+          win: 'Ctrl-s'
+          mac: 'Command-s'
+          sender: 'editor'
+      exec: (env, args, request) ->
+        window.koanRunnerView.run()
     
   code: ->
     @editor.getSession().getValue()
@@ -72,11 +82,8 @@ class KoanEditor
     @editor.getSession().setValue code
   
   find: (text) -> @editor.find(text)
-  
+
 $ ->
   window.koanEditor = new KoanEditor()
   window.koanRunnerView = new KoanRunnerView(el: $("#koan_runner"), editor: koanEditor)
   window.koanRunnerView.loadCurrentKoan()
-
-  
-
