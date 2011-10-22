@@ -48,10 +48,10 @@ class KoanEditor
   constructor: ->
     @editor = ace.edit("koan_editor")
     @editor.name = "koan_editor"
-    @editor.setTheme("ace/theme/textmate");
+    @editor.setTheme("ace/theme/textmate")
     @editor.getSession().setTabSize(2)
-    @editor.getSession().setUseSoftTabs(true);
-    coffeeMode = require("ace/mode/coffee").Mode;
+    @editor.getSession().setUseSoftTabs(true)
+    coffeeMode = require("ace/mode/coffee").Mode
     @editor.getSession().setMode new coffeeMode()
     
   code: ->
