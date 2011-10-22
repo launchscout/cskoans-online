@@ -18,12 +18,22 @@ class KoanRunnerView extends Backbone.View
   
   events: 
     "click .try-it": "run"
-  
+
+  positiveReinforcements: [
+    'Good job!'
+    'Way to go!'
+    "You're awesome!"
+    'Keep it up!'
+  ]
+
+  randomPositive: ->
+    @positiveReinforcements[Math.round((Math.random() * @positiveReinforcements.length) + 1)]
+
   displaySuccess: (text) ->
-    @$(".spec-results").append "#{text} has expanded your awareness.<br/>"
-    
+    @$(".spec-results").append "<p><code>#{text}</code> has expanded your awareness. #{@randomPositive()}</p>"
+
   displayFailure: (spec) ->
-    @$(".spec-results").append("Consider the highlighted code. It has damaged your karma")
+    @$(".spec-results").append("<p class='error'>Consider the highlighted code. It has damaged your karma.</p>")
     @$(".spec-results").append("<ul></ul>")
     @$("ul").append("<li>#{expectation.message}</li>") for expectation in spec.results().getItems()
     @editor.find spec.description
@@ -31,8 +41,9 @@ class KoanRunnerView extends Backbone.View
     
   findInEditor: (text) ->
     @editor.find text
-    
-  run: ->
+
+  run: (event) ->
+    event.preventDefault() if event?
     @$(".spec-results").empty()
     @iframe.remove if @iframe?
     @iframe = $("<iframe id='sandbox' src='/sandbox'></iframe>").appendTo("body").load =>
