@@ -66,6 +66,11 @@ $ ->
   window.koanEditor = new KoanEditor()
   window.koanRunnerView = new KoanRunnerView(el: $("#koan_runner"), editor: koanEditor)
   window.koanRunnerView.loadCurrentKoan()
+  $('body').keydown (e)->
+    if (e.which == 13 && (e.ctrlKey || e.metaKey))
+      e.preventDefault()
+      window.koanRunnerView.run()
+
 
   
 
