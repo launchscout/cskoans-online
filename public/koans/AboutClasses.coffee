@@ -7,7 +7,7 @@ class SwedishChef extends Muppet
     super(age, hobby)
   cook: -> 'Mmmm soup!'
 
-describe 'About inheritance', ->
+describe 'About classes', ->
   beforeEach ->
     @muppet = new Muppet 2, 'coding'
     @swedishChef = new SwedishChef 3, 'cooking', 'chillin'
@@ -31,9 +31,9 @@ describe 'About inheritance', ->
     (expect gonzo.answerNanny()).toBe(FILL_ME_IN)
     (expect @muppet.answerNanny()).toBe(FILL_ME_IN)
 
-  it 'should allow derived classes to override base classes', ->
+  it 'should allow derived classes to override methods and call super", ->
     class DanishChef extends SwedishChef
-      cook: -> 'Sizzle'
+      cook: -> "Sizzle.. #{super()}"
     redzepi = new DanishChef 30, 'foraging', 'happy'
     (expect redzepi.cook()).toBe(FILL_ME_IN)
     (expect @swedishChef.cook()).toBe(FILL_ME_IN)

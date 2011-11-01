@@ -1,16 +1,22 @@
 canon = require('pilot/canon')
 
 class KoanRunnerView extends Backbone.View
-
-  koans: ["AboutExistance", "AboutExpects", "AboutArrays"]
-
+  
+  koans: ["AboutExpects", "AboutFunctions", "AboutFatArrow", "AboutArrays", "AboutExistance",  "AboutObjects", "AboutInheritance", "AboutObjects", "AboutStrings"]
+  
   constructor: (options)->
     super options
     @editor = options.editor
     @koanIndex = 0
-
-  loadCurrentKoan: ->
-    $.get "/koans/#{@koans[@koanIndex]}.coffee", (data)=>
+  
+  selectKoan: (event)->
+    @loadKoan @$("#koan_select").val()
+    
+  loadCurrentKoan: (index) ->
+    @loadKoan(@koanIndex)
+    
+  loadKoan: (index)->
+    $.get "/koans/#{@koans[index]}.coffee", (data)=>
       @editor.setCode data
       @run()
 
@@ -20,6 +26,8 @@ class KoanRunnerView extends Backbone.View
 
   events:
     "click .try-it": "run"
+    "change #koan_select": "selectKoan"
+  
 
   positiveReinforcements: [
     'Good job!'
@@ -40,8 +48,13 @@ class KoanRunnerView extends Backbone.View
     for expectation in spec.results().getItems()
       @$("ul").append("<li>#{expectation.message}</li>") unless expectation.passed()
     @editor.find spec.description
-
-
+    
+  render: ->
+    @$("#koan_select").html()
+    for index in [0...@koans.length]
+      @$("#koan_select").append("<option value='#{index}'>#{@koans[index]}</option>")
+    @loadCurrentKoan()
+    
   findInEditor: (text) ->
     @editor.find text
 
@@ -87,4 +100,12 @@ class KoanEditor
 $ ->
   window.koanEditor = new KoanEditor()
   window.koanRunnerView = new KoanRunnerView(el: $("#koan_runner"), editor: koanEditor)
-  window.koanRunnerView.loadCurrentKoan()
+  window.koanRunnerView.render()
+  $('body').keydown (e)->
+    if (e.which == 13 && (e.ctrlKey || e.metaKey))
+      e.preventDefault()
+      window.koanRunnerView.run()
+
+
+  
+
