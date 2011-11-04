@@ -22,7 +22,6 @@ gem "jasminerice"
 gem 'jquery-rails'
 gem 'npm_assets'
 gem 'eco'
-gem "railbone", :git => 'git://github.com/gaslight/railbone.git'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
