@@ -22,6 +22,7 @@ gem "jasminerice"
 gem 'jquery-rails'
 gem 'npm_assets'
 gem 'eco'
+gem 'heroku'
 
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
