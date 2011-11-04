@@ -1,7 +1,7 @@
 #= require jquery
 
-#= require_npm underscore
-#= require_npm backbone
+#= require underscore
+#= require backbone
 #= require ace/ace-uncompressed
 #= require ace/mode-coffee
 #= require coffee-script
