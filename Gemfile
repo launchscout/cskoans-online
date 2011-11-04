@@ -25,7 +25,6 @@ end
 gem 'jquery-rails'
 gem "jasminerice"
 gem 'jquery-rails'
-gem 'npm_assets'
 gem 'eco'
 gem 'heroku'
 
