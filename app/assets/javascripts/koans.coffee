@@ -1,24 +1,24 @@
 canon = require('pilot/canon')
 
 class KoanRunnerView extends Backbone.View
-  
+
   koans: ["AboutExistance", "AboutExpects", "AboutArrays"]
-  
+
   constructor: (options)->
     super options
     @editor = options.editor
     @koanIndex = 0
-    
+
   loadCurrentKoan: ->
     $.get "/koans/#{@koans[@koanIndex]}.coffee", (data)=>
       @editor.setCode data
       @run()
-      
+
   koanCompleted: ->
     @koanIndex += 1
     @loadCurrentKoan()
-  
-  events: 
+
+  events:
     "click .try-it": "run"
 
   positiveReinforcements: [
@@ -35,12 +35,13 @@ class KoanRunnerView extends Backbone.View
     @$(".spec-results").append "<p><code>#{text}</code> has expanded your awareness. #{@randomPositive()}</p>"
 
   displayFailure: (spec) ->
-    @$(".spec-results").append("<p class='error'>Consider the highlighted code. It has damaged your karma.</p>")
+    @$(".spec-results").append("<p class='error'>Consider <code>#{spec.description}</code>. It has damaged your karma:</p>")
     @$(".spec-results").append("<ul></ul>")
-    @$("ul").append("<li>#{expectation.message}</li>") for expectation in spec.results().getItems()
+    for expectation in spec.results().getItems()
+      @$("ul").append("<li>#{expectation.message}</li>") unless expectation.passed()
     @editor.find spec.description
-    
-    
+
+
   findInEditor: (text) ->
     @editor.find text
 
@@ -53,11 +54,11 @@ class KoanRunnerView extends Backbone.View
       iframeWin.jasmine.getEnv().addReporter new iframeWin.CoffeeKoansReporter @
       iframeWin.eval CoffeeScript.compile(@editor.code(), { bare: true })
       iframeWin.jasmine.getEnv().execute()
-    
-  
+
+
 
 class KoanEditor
-  
+
   constructor: ->
     @editor = ace.edit("koan_editor")
     @editor.name = "koan_editor"
@@ -77,10 +78,10 @@ class KoanEditor
     
   code: ->
     @editor.getSession().getValue()
-    
+
   setCode: (code)->
     @editor.getSession().setValue code
-  
+
   find: (text) -> @editor.find(text)
 
 $ ->
