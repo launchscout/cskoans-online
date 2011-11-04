@@ -1,0 +1,56 @@
+@import 'compass/css3'
+@import 'blueprint/grid'
+
+body
+  background-color: #336699
+  font:
+    family: Helvetica, Arial, sans-serif
+
+iframe
+  display: none
+
+.body-wrap 
+  @include container
+  background-color: #fff
+  h1
+    padding-left: 0.5em
+    color: #444
+    @include single-text-shadow(rgba(0, 0, 0, 0.25), 1px, 1px, 1px)
+
+.header
+  @include column(24, true)
+
+#editor_wrapper
+  @include column(12)
+  line-height: 1.25em
+  #koan_editor 
+    position: relative
+    width: 100%
+    min-height: 400px
+
+#runner_wrapper 
+  @include column(12, true)
+  line-height: 1.5em
+  .spec-results
+    margin: 1em 0
+    ul
+      padding-left: 15px
+  .error
+    color: #f00
+
+a.button
+  background: blue
+  display: inline-block
+  padding: 5px 10px 6px
+  color: #fff
+  text-decoration: none
+  @include border-radius(5px)
+  @include single-box-shadow(rgba(0, 0, 0, 0.5), 0, 1px, 3px)
+  @include single-text-shadow(rgba(0, 0, 0, 0.25), 0, -1px, 1px)
+  position: relative
+  cursor: pointer
+  &:hover
+    background-color: #333
+    color: #fff
+  &:active
+    top: 1px

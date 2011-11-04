@@ -1,3 +1,5 @@
+canon = require('pilot/canon')
+
 class KoanRunnerView extends Backbone.View
 
   koans: ["AboutExistance", "AboutExpects", "AboutArrays"]
@@ -19,11 +21,21 @@ class KoanRunnerView extends Backbone.View
   events:
     "click .try-it": "run"
 
+  positiveReinforcements: [
+    'Good job!'
+    'Way to go!'
+    "You're awesome!"
+    'Keep it up!'
+  ]
+
+  randomPositive: ->
+    @positiveReinforcements[Math.round((Math.random() * @positiveReinforcements.length) + 1)]
+
   displaySuccess: (text) ->
-    @$(".spec-results").append "'#{text}' has expanded your awareness.<br/>"
+    @$(".spec-results").append "<p><code>#{text}</code> has expanded your awareness. #{@randomPositive()}</p>"
 
   displayFailure: (spec) ->
-    @$(".spec-results").append("<p>Consider '#{spec.description}'. It has damaged your karma:</p>")
+    @$(".spec-results").append("<p class='error'>Consider <code>#{spec.description}</code>. It has damaged your karma:</p>")
     @$(".spec-results").append("<ul></ul>")
     for expectation in spec.results().getItems()
       @$("ul").append("<li>#{expectation.message}</li>") unless expectation.passed()
@@ -33,7 +45,8 @@ class KoanRunnerView extends Backbone.View
   findInEditor: (text) ->
     @editor.find text
 
-  run: ->
+  run: (event) ->
+    event.preventDefault() if event?
     @$(".spec-results").empty()
     @iframe.remove if @iframe?
     @iframe = $("<iframe id='sandbox' src='/sandbox'></iframe>").appendTo("body").load =>
@@ -49,12 +62,20 @@ class KoanEditor
   constructor: ->
     @editor = ace.edit("koan_editor")
     @editor.name = "koan_editor"
-    @editor.setTheme("ace/theme/textmate");
+    @editor.setTheme("ace/theme/textmate")
     @editor.getSession().setTabSize(2)
-    @editor.getSession().setUseSoftTabs(true);
-    coffeeMode = require("ace/mode/coffee").Mode;
+    @editor.getSession().setUseSoftTabs(true)
+    coffeeMode = require("ace/mode/coffee").Mode
     @editor.getSession().setMode new coffeeMode()
-
+    canon.addCommand
+      name: 'myCommand'
+      bindKey:
+          win: 'Ctrl-s'
+          mac: 'Command-s'
+          sender: 'editor'
+      exec: (env, args, request) ->
+        window.koanRunnerView.run()
+    
   code: ->
     @editor.getSession().getValue()
 
@@ -67,7 +88,3 @@ $ ->
   window.koanEditor = new KoanEditor()
   window.koanRunnerView = new KoanRunnerView(el: $("#koan_runner"), editor: koanEditor)
   window.koanRunnerView.loadCurrentKoan()
-  $('body').keydown (e)->
-    if (e.which == 13 && (e.ctrlKey || e.metaKey))
-      e.preventDefault()
-      window.koanRunnerView.run()
