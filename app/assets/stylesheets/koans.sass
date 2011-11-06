@@ -18,8 +18,12 @@ iframe
     @include single-text-shadow(rgba(0, 0, 0, 0.25), 1px, 1px, 1px)
 
 .header
-  @include column(24, true)
+  @include column(20)
 
+.navigation
+  @include column(4, true)
+  margin-top: 20px
+  
 #editor_wrapper
   @include column(16)
   line-height: 1.25em

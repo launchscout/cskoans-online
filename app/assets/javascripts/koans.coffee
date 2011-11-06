@@ -1,46 +1,67 @@
 canon = require('pilot/canon')
 
-class KoanRunnerView extends Backbone.View
+koans = ["AboutExpects", "AboutFunctions", "AboutFatArrow", "AboutArrays", "AboutExistence",  "AboutObjects", "AboutInheritance", "AboutStrings"]
+
+class KoanRouter extends Backbone.Router
+  routes:
+    "koan/:koan": "loadKoan"
+    
+  loadKoan: (koan)->
+    koanRunner.loadKoan(koan)
+
+class KoanSelectView extends Backbone.View
   
-  koans: ["AboutExpects", "AboutFunctions", "AboutFatArrow", "AboutArrays", "AboutExistance",  "AboutObjects", "AboutInheritance", "AboutObjects", "AboutStrings"]
+  events: 
+    "change": "selectKoan"
+  
+  selectKoan: ->
+    koanRouter.navigate("koan/#{@el.val()}", true)
+    
+  render: ->
+    @el.html()
+    @el.append("<option value='#{koan}'>#{koan}</option>") for koan in koans
+      
+class KoanRunnerView extends Backbone.View
   
   constructor: (options)->
     super options
     @editor = options.editor
-    @koanIndex = 0
-  
-  selectKoan: (event)->
-    @loadKoan @$("#koan_select").val()
     
   loadCurrentKoan: (index) ->
     @loadKoan(@koanIndex)
     
-  loadKoan: (index)->
-    $.get "/koans/#{@koans[index]}.coffee", (data)=>
+  loadKoan: (koan)->
+    $.get "/koans/#{koan}.coffee", (data)=>
       @editor.setCode data
       @run()
 
-  koanCompleted: ->
-    @koanIndex += 1
-    @loadCurrentKoan()
-
   events:
-    "click .try-it": "run"
-    "change #koan_select": "selectKoan"
+    "click .try-it": "run"  
   
-
-  positiveReinforcements: [
-    'Good job!'
-    'Way to go!'
-    "You're awesome!"
-    'Keep it up!'
+  zenProverbs: [
+    "If you understand, things are just as they are; if you do not understand, things are just as they are."
+    "From the withered tree, a flower blooms."
+    "Do not seek the truth, only cease to cherish your opinions."
+    "No snowflake ever falls in the wrong place."
+    "Knock on the sky and Listen to the sound."
+    "Only when you can be extremely pliable and soft can you be extremely hard and strong."
+    "It takes a wise man to learn from his mistakes, but an even wiser man to learn from others."
+    "To know and not do is not yet to know."
+    "The infinite is in the finite of every instant."
+    "The mind should be as a mirror."
+    "Only the crystal clear question yields a transparent answer."
+    "When an ordinary man gains knowledge, he is a sage; when a sage gains understanding, he is an ordinary man."
   ]
 
-  randomPositive: ->
-    @positiveReinforcements[Math.round((Math.random() * @positiveReinforcements.length) + 1)]
-
+  randomZenProverb: ->
+    _.shuffle(@zenProverbs)[0]
+    
+  koanCompleted: ->
+    @$(".spec-results").html "<p>#{@randomZenProverb()}</p>"
+    @$(".spec-results").append "<p>You have completed this koan.</p>"
+    
   displaySuccess: (text) ->
-    @$(".spec-results").append "<p><code>#{text}</code> has expanded your awareness. #{@randomPositive()}</p>"
+    @$(".spec-results").append "<p><code>#{text}</code> has expanded your awareness.</p>"
 
   displayFailure: (spec) ->
     @$(".spec-results").append("<p class='error'>Consider <code>#{spec.description}</code>. It has damaged your karma:</p>")
@@ -48,12 +69,6 @@ class KoanRunnerView extends Backbone.View
     for expectation in spec.results().getItems()
       @$("ul").append("<li>#{expectation.message}</li>") unless expectation.passed()
     @editor.find spec.description
-    
-  render: ->
-    @$("#koan_select").html()
-    for index in [0...@koans.length]
-      @$("#koan_select").append("<option value='#{index}'>#{@koans[index]}</option>")
-    @loadCurrentKoan()
     
   findInEditor: (text) ->
     @editor.find text
@@ -87,7 +102,7 @@ class KoanEditor
           mac: 'Command-s'
           sender: 'editor'
       exec: (env, args, request) ->
-        window.koanRunnerView.run()
+        window.koanRunner.run()
     
   code: ->
     @editor.getSession().getValue()
@@ -99,12 +114,17 @@ class KoanEditor
 
 $ ->
   window.koanEditor = new KoanEditor()
-  window.koanRunnerView = new KoanRunnerView(el: $("#koan_runner"), editor: koanEditor)
-  window.koanRunnerView.render()
+  window.koanRunner = new KoanRunnerView(el: $("#koan_runner"), editor: koanEditor)
+  window.koanRouter = new KoanRouter()
+  window.koanSelect = new KoanSelectView(el: $("#koan_select"))
+  window.koanSelect.render()
+  Backbone.history.start()
+  window.koanRouter.navigate("koan/AboutExpects", true)
+  
   $('body').keydown (e)->
     if (e.which == 13 && (e.ctrlKey || e.metaKey))
       e.preventDefault()
-      window.koanRunnerView.run()
+      window.koanRunne.run()
 
 
   
