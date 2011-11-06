@@ -4,7 +4,11 @@ describe 'About Functions', ->
     add = (a, b) -> a + b
     expect(add(1, 2)).toBe(FILL_ME_IN)
 
-
+  it "should know about default arguments", ->
+    f = (x = 1) -> x
+    expect(f()).toEqual(FILL_ME_IN)
+    expect(f(2)).toEqual(FILL_ME_IN)
+    
   it 'should know internal variables override outer variables', ->
     message = 'Outer'
     getMessage = -> message

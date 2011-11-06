@@ -24,6 +24,15 @@ describe 'About flow control in coffeescript', ->
 
     expect(numbers).toEqual(FILL_ME_IN)
     expect(doubles).toEqual(FILL_ME_IN)
+  
+  it "should let me do while and until loops alse", ->
+    num = 1
+    while num < 5
+      num += 1
+    expect(num).toEqual(FILL_ME_IN)
+    until num == 10
+      num += 1
+    expect(num).toEqual(FILL_ME_IN)
     
   it "should use 'in' to test inclusion", ->
     numbers = [1..3]
