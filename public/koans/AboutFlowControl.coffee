@@ -43,7 +43,7 @@ describe 'About flow control in coffeescript', ->
   it "should use 'in' to test inclusion", ->
     numbers = [1..3]
 
-    expect(if 2 in numbers then true else false).toBe()
+    expect(if 2 in numbers then true else false).toBe(FILL_ME_IN)
 
   it 'should let me use when to filter a list comprehension', ->
     numbers = [1..6]
