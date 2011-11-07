@@ -6,7 +6,7 @@ describe 'About flow control in coffeescript', ->
     greeting = "Blarg, just another day" unless today is "Monday"
     greeting = "Well, at least it's not Wednesday" if today isnt "Wednesday"
     expect(greeting).toEqual FILL_ME_IN
-    
+  
   it "should use 'for' for simple iteration", ->
     numbers = [3..0] # a reverse range
     msg = ''
@@ -16,7 +16,7 @@ describe 'About flow control in coffeescript', ->
     expect(msg).toEqual(FILL_ME_IN)
     expect(numbers).toEqual(FILL_ME_IN)
 
-  it 'should also use 'for' to do list comprehensions', ->
+  it 'should also use for to do list comprehensions', ->
     numbers = [1..3]
     twice = (a) -> a * 2
     # simply place any function in front of 'for' for a map
@@ -25,7 +25,13 @@ describe 'About flow control in coffeescript', ->
     expect(numbers).toEqual(FILL_ME_IN)
     expect(doubles).toEqual(FILL_ME_IN)
   
-  it "should let me do while and until loops alse", ->
+  it "should support chained comparison", ->
+    cholesterol = 127
+
+    healthy = 200 > cholesterol > 60
+    expect(healthy).toEqual(FILL_ME_IN)
+
+  it "should let me do while and until loops also", ->
     num = 1
     while num < 5
       num += 1

@@ -4,8 +4,8 @@ describe 'About Objects', ->
     object = 
       foo: 'bar'
       biz: 'bang'
-    keys = key for key, value of object
-    values = value for key, value of object
+    keys = (key for key, value of object)
+    values = (value for key, value of object)
     expect(keys).toEqual(FILL_ME_IN)
     expect(values).toEqual(FILL_ME_IN)
 

@@ -1,6 +1,15 @@
 canon = require('pilot/canon')
 
-koans = ["AboutExpects", "AboutFunctions", "AboutFatArrow", "AboutArrays", "AboutExistence",  "AboutObjects", "AboutInheritance", "AboutStrings"]
+koans = [
+  "AboutExpects"
+  "AboutFunctions"
+  "AboutObjects"
+  "AboutStrings"
+  "AboutExistence"
+  "AboutFlowControl"
+  "AboutDestructuring"
+  "AboutInheritance"
+  "AboutFatArrow"]
 
 class KoanRouter extends Backbone.Router
   routes:
