@@ -8,7 +8,7 @@ koans = [
   "AboutExistence"
   "AboutFlowControl"
   "AboutDestructuring"
-  "AboutInheritance"
+  "AboutClasses"
   "AboutFatArrow"]
 
 class KoanRouter extends Backbone.Router

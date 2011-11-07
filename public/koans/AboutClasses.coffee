@@ -31,7 +31,7 @@ describe 'About classes', ->
     (expect gonzo.answerNanny()).toBe(FILL_ME_IN)
     (expect @muppet.answerNanny()).toBe(FILL_ME_IN)
 
-  it 'should allow derived classes to override methods and call super", ->
+  it "should allow derived classes to override methods and call super", ->
     class DanishChef extends SwedishChef
       cook: -> "Sizzle.. #{super()}"
     redzepi = new DanishChef 30, 'foraging', 'happy'
