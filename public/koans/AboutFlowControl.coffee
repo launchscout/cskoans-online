@@ -43,11 +43,11 @@ describe 'About flow control in coffeescript', ->
   it "should use 'in' to test inclusion", ->
     numbers = [1..3]
 
-    expect(if 2 in numbers then true else false).toBe(FILL_ME_IN)
+    expect(2 in numbers).toBe(FILL_ME_IN)
 
   it 'should let me use when to filter a list comprehension', ->
     numbers = [1..6]
-    even = (a) -> if a % 2 == 0 then true else false
+    even = (a) -> a % 2 == 0
     odds = (x for x in numbers when not even x) # filter an array comprehension with 'when'
 
     expect(odds).toEqual(FILL_ME_IN)
